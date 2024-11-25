@@ -7,6 +7,12 @@ body {
     padding: 20px;
 }
 
+#comencar-partida {
+    border-radius: 6px;
+    cursor: pointer;
+    
+}
+
 .input-container {
     display: flex;
     align-items: center;
@@ -26,8 +32,6 @@ body {
 }
 
 button {
-    font-size: 1.2em;
-    padding: 10px;
     cursor: pointer;
 }
 

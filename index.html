@@ -8,21 +8,24 @@
 </head>
 <body>
     <header>
-        <h1>Joc d'Endevinar la Paraula</h1>
         <div class="input-container">
             <input id="paraula" type="password" placeholder="Escriu la paraula" maxlength="10">
             <button onclick="toggleVisibility()">👁️</button>
-        </div>
-        <button id="comencar-partida" onclick="comencarPartida()">Començar partida</button>
-        <div id="intents-container">
-            <img id="intents-img" src="img/img_10.jpg" alt="Intents restants">
-        </div>
+            <button id="comencar-partida" onclick="comencarPartida()">Començar partida</button>
+        </div> 
     </header>
     
     <main>
+        <h1>Começar Partida</h1>
+        <div id="intents-container">
+            <img id="intents-img" src="img/img_10.jpg" alt="Intents restants">
+        </div>
+        
+    </main>
+    <footer>
         <div id="display-lletres" class="lletres-container"></div>
         <div id="botons-container" class="botons-container"></div>
-    </main>
+    </footer>
 
     <script src="js/script.js"></script>
 </body>

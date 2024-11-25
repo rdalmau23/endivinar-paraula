@@ -15,6 +15,16 @@ function toggleVisibility() {
     inputParaula.type = inputParaula.type === "password" ? "text" : "password";
 }
 
+function inicialitzarBotonsLletres() {
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(lletra => {
+        const boto = document.createElement("button");
+        boto.textContent = lletra;
+        boto.disabled = true;
+        boto.onclick = () => comprovarLletra(boto, lletra);
+        botonsContainer.appendChild(boto);
+    });
+}
+
 function comencarPartida() {
     paraulaAEndevinar = inputParaula.value.toUpperCase();
     
@@ -24,21 +34,14 @@ function comencarPartida() {
     }
 
     intentsRestants = 10;
-    intentsImg.src = `img/10.png`;
+    intentsImg.src = `img/img_10.jpg`;
     displayLletres.innerHTML = "";
-    botonsContainer.innerHTML = "";
+    botonsContainer.querySelectorAll("button").forEach(boto => boto.disabled = false);
 
     paraulaAEndevinar.split("").forEach(() => {
         const lletraDisplay = document.createElement("span");
         lletraDisplay.textContent = "_ ";
         displayLletres.appendChild(lletraDisplay);
-    });
-
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(lletra => {
-        const boto = document.createElement("button");
-        boto.textContent = lletra;
-        boto.onclick = () => comprovarLletra(boto, lletra);
-        botonsContainer.appendChild(boto);
     });
 }
 
@@ -63,7 +66,6 @@ function comprovarLletra(boto, lletra) {
         }
     }
 
-    // Comprova si has guanyat
     const paraulaActual = Array.from(displayLletres.children).map(span => span.textContent.trim()).join("");
     if (paraulaActual === paraulaAEndevinar) {
         alert("Felicitats! Has endevinat la paraula.");
@@ -71,11 +73,12 @@ function comprovarLletra(boto, lletra) {
     }
 }
 
-// Reinicia el joc
 function resetJoc() {
     intentsRestants = 10;
     intentsImg.src = `img/img_10.jpg`;
     inputParaula.value = "";
     displayLletres.innerHTML = "";
-    botonsContainer.innerHTML = "";
+    botonsContainer.querySelectorAll("button").forEach(boto => boto.disabled = true);
 }
+
+inicialitzarBotonsLletres();
