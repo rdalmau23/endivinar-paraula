@@ -2,21 +2,29 @@ const inputParaula = document.getElementById("paraula");
 const displayLletres = document.getElementById("display-lletres");
 const botonsContainer = document.getElementById("botons-container");
 const intentsImg = document.getElementById("intents-img");
+const botoComencarPartida = document.getElementById("comencar-partida");
 
 let intentsRestants = 10;
 let paraulaAEndevinar = "";
 
 inputParaula.addEventListener("input", () => {
     inputParaula.value = inputParaula.value.replace(/[^a-zA-Z]/g, "");
-    actualitzarDisplay();
 });
 
 function toggleVisibility() {
     inputParaula.type = inputParaula.type === "password" ? "text" : "password";
 }
 
-function actualitzarDisplay() {
+function comencarPartida() {
     paraulaAEndevinar = inputParaula.value.toUpperCase();
+    
+    if (!paraulaAEndevinar) {
+        alert("Escriu una paraula per començar.");
+        return;
+    }
+
+    intentsRestants = 10;
+    intentsImg.src = `img/10.png`;
     displayLletres.innerHTML = "";
     botonsContainer.innerHTML = "";
 
@@ -29,13 +37,15 @@ function actualitzarDisplay() {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(lletra => {
         const boto = document.createElement("button");
         boto.textContent = lletra;
-        boto.onclick = () => comprovarLletra(lletra);
+        boto.onclick = () => comprovarLletra(boto, lletra);
         botonsContainer.appendChild(boto);
     });
 }
 
-function comprovarLletra(lletra) {
+function comprovarLletra(boto, lletra) {
+    boto.disabled = true;
     const posicions = [];
+    
     paraulaAEndevinar.split("").forEach((char, index) => {
         if (char === lletra) posicions.push(index);
     });
@@ -52,11 +62,20 @@ function comprovarLletra(lletra) {
             resetJoc();
         }
     }
+
+    // Comprova si has guanyat
+    const paraulaActual = Array.from(displayLletres.children).map(span => span.textContent.trim()).join("");
+    if (paraulaActual === paraulaAEndevinar) {
+        alert("Felicitats! Has endevinat la paraula.");
+        resetJoc();
+    }
 }
 
+// Reinicia el joc
 function resetJoc() {
     intentsRestants = 10;
     intentsImg.src = `img/img_10.jpg`;
     inputParaula.value = "";
-    actualitzarDisplay();
+    displayLletres.innerHTML = "";
+    botonsContainer.innerHTML = "";
 }
