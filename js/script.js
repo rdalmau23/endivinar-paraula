@@ -6,6 +6,10 @@ const botoComencarPartida = document.getElementById("comencar-partida");
 
 let intentsRestants = 10;
 let paraulaAEndevinar = "";
+let puntsActuals = 0;
+let totalPartides = 0;
+let partidesGuanyades = 0;
+let partidaRecord = { punts: 0, data: "N/A" };
 
 inputParaula.addEventListener("input", () => {
     inputParaula.value = inputParaula.value.replace(/[^a-zA-Z]/g, "");
@@ -62,16 +66,20 @@ function comprovarLletra(boto, lletra) {
         intentsImg.src = `img/img_${intentsRestants}.jpg`;
         if (intentsRestants === 0) {
             alert("Has perdut! No et queden més intents.");
+            actualitzarEstadistiques(false); 
             resetJoc();
+            return;
         }
     }
 
     const paraulaActual = Array.from(displayLletres.children).map(span => span.textContent.trim()).join("");
     if (paraulaActual === paraulaAEndevinar) {
         alert("Felicitats! Has endevinat la paraula.");
+        actualitzarEstadistiques(true); 
         resetJoc();
     }
 }
+
 
 function resetJoc() {
     intentsRestants = 10;
@@ -82,3 +90,25 @@ function resetJoc() {
 }
 
 inicialitzarBotonsLletres();
+
+function actualitzarEstadistiques(guanyada) {
+    totalPartides++;
+    if (guanyada) {
+        partidesGuanyades++;
+        puntsActuals = intentsRestants; 
+        if (puntsActuals > partidaRecord.punts) {
+            const data = new Date();
+            partidaRecord = {
+                punts: puntsActuals,
+                data: `${data.toLocaleDateString()} ${data.toLocaleTimeString()}`
+            };
+        }
+    } else {
+        puntsActuals = 0;
+    }
+
+    document.getElementById("punts-actuals").textContent = puntsActuals;
+    document.getElementById("total-partides").textContent = totalPartides;
+    document.getElementById("partides-guanyades").textContent = partidesGuanyades;
+    document.getElementById("partida-record").textContent = `${partidaRecord.data} - ${partidaRecord.punts} punts`;
+}
